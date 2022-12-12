@@ -19,11 +19,11 @@ public class Game {
         return gameInput.inputPlayerName();
     }
 
-    public void showHands(){
-
+    public int inputPlayerChose(){
+        return gameInput.inputPlayerChose(player);
     }
 
-    public void inputHitOrStand(){
+    public void showHands(){
 
     }
 
