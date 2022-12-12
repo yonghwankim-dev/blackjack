@@ -4,17 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static com.GameInputValidate.validatePlayerChose;
 import static com.GameInputValidate.validatePlayerName;
 
 public class GameInput {
-    private BufferedReader br;
+    private final BufferedReader br;
 
     public GameInput() {
         this.br = new BufferedReader(new InputStreamReader(System.in));
     }
 
     public String inputPlayerName(){
-        String name = null;
+        String name;
         System.out.println("플레이어의 이름(3 english letters)은? ex) KYH");
         while(true){
             try {
@@ -26,5 +27,24 @@ public class GameInput {
             }
         }
         return name;
+    }
+
+    public int inputPlayerChose(Player player) {
+        String input;
+        System.out.printf("%3s님 선택해 주세요%n", player.getName());
+        while(true){
+            try{
+                input = br.readLine();
+                if(!validatePlayerChose(input)) throw new IOException();
+                break;
+            } catch (IOException e) {
+                System.out.println("잘못된 선택입니다. ex) 1");
+            }
+        }
+        return toInt(input);
+    }
+
+    private int toInt(String text){
+        return Integer.parseInt(text);
     }
 }
