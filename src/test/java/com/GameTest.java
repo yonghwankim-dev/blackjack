@@ -58,8 +58,21 @@ public class GameTest {
         assertThat(outputs[1]).isEqualTo("적절하지 않은 이름입니다. ex) KYH");
     }
 
+    @DisplayName("플레이어가 히트를 입력하는 경우")
+    @ParameterizedTest
+    @ValueSource(strings = {"1"})
+    public void testInputPlayerChose(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Game game = new Game(new Player("KYH"), new Dealer());
+        //when
+        int actual = game.inputPlayerChose();
+        //then
+        assertThat(actual).isEqualTo(1);
+    }
+
     private InputStream generateInputStream(String text){
         return new ByteArrayInputStream(text.getBytes());
     }
-
 }
