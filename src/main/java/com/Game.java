@@ -1,14 +1,20 @@
 package com;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Game {
+    private static final int CARD_DECK_NUMBER = 4;
+
     private final Player player;
     private final Dealer dealer;
     private final GameInput gameInput;
-
+    private final Set<Card> cardSet;
     public Game(Player player, Dealer dealer) {
         this.player = player;
         this.dealer = dealer;
         this.gameInput = new GameInput();
+        this.cardSet = createCardDeck(CARD_DECK_NUMBER);
     }
 
     public void start(){
@@ -21,6 +27,21 @@ public class Game {
 
     public int inputPlayerChose(){
         return gameInput.inputPlayerChose(player);
+    }
+
+    public Set<Card> createCardDeck(int n){
+        Set<Card> result = new HashSet<>();
+        String[] shapes = {"CLOVER", "HEART", "DIAMOND", "SPADE"};
+        String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < names.length; j++){
+                result.add(new Card(names[j], shapes[i], values[j]));
+            }
+        }
+
+        return result;
     }
 
     public void showHands(){
