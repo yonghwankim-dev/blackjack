@@ -72,6 +72,25 @@ public class GameTest {
         assertThat(actual).isEqualTo(1);
     }
 
+    @DisplayName("플레이어가 입력을 잘못하는 경우")
+    @ParameterizedTest
+    @ValueSource(strings = {"12\n1", "aaa\n1", " \n1", "3\n1"})
+    public void testInputPlayerChose_whenInvalidInput_thenOutputWarning(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Game game = new Game(new Player("KYH"), new Dealer());
+        //when
+        int actual = game.inputPlayerChose();
+        //then
+        assertThat(actual).isEqualTo(1);
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("KYH님 선택해 주세요 ex) 1");
+        assertThat(outputs[1]).isEqualTo("1. 히트(hit)");
+        assertThat(outputs[2]).isEqualTo("2. 스탠드(stand)");
+        assertThat(outputs[3]).isEqualTo("잘못된 선택입니다. ex) 1");
+    }
+
     private InputStream generateInputStream(String text){
         return new ByteArrayInputStream(text.getBytes());
     }
