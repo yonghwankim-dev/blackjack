@@ -1,5 +1,7 @@
 package com;
 
+import java.util.Objects;
+
 public class Card {
     private String name;
     private String shape;
@@ -21,5 +23,18 @@ public class Card {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+        Card card = (Card) o;
+        return getName().equals(card.getName()) && getShape().equals(card.getShape());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getShape());
     }
 }
