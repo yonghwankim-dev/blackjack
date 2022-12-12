@@ -31,8 +31,10 @@ public class GameInput {
 
     public int inputPlayerChose(Player player) {
         String input;
-        System.out.printf("%3s님 선택해 주세요%n", player.getName());
         while(true){
+            System.out.printf("%3s님 선택해 주세요 ex) 1%n", player.getName());
+            System.out.println("1. 히트(hit)");
+            System.out.println("2. 스탠드(stand)");
             try{
                 input = br.readLine();
                 if(!validatePlayerChose(input)) throw new IOException();
