@@ -3,6 +3,7 @@ package com;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -10,6 +11,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -93,5 +96,31 @@ public class GameTest {
 
     private InputStream generateInputStream(String text){
         return new ByteArrayInputStream(text.getBytes());
+    }
+
+    @DisplayName("게임에서 초기덱이 생성되는지 테스트")
+    @Test
+    public void testCreateCardDeck(){
+        //given
+        Game game = new Game(new Player("KYH"), new Dealer());
+        Set<Card> expected = createCardDeckExpected();
+        //when
+        Set<Card> actual = game.createCardDeck(4);
+        //then
+        assertThat(actual).containsExactlyElementsOf(expected);
+    }
+
+    private Set<Card> createCardDeckExpected(){
+        Set<Card> result = new HashSet<>();
+        String[] shapes = {"CLOVER", "HEART", "DIAMOND", "SPADE"};
+        String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+
+        for(String shape : shapes){
+            for(int i = 0; i < names.length; i++){
+                result.add(new Card(names[i], shape, values[i]));
+            }
+        }
+        return result;
     }
 }
