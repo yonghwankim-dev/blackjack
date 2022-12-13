@@ -49,4 +49,22 @@ public class GameInput {
     private int toInt(String text){
         return Integer.parseInt(text);
     }
+
+    public int inputPlayerPoint(Player player) {
+        String input;
+        while(true){
+            System.out.printf("%3s님의 포인트는 얼마입니까?%n", player.getName());
+            try{
+                input = br.readLine();
+                if(!GameInputValidate.validatePlayerPoint(input)) throw new IOException();
+                if(toInt(input) <= 0) throw new IllegalStateException();
+                break;
+            } catch (IOException e) {
+                System.out.println("포인트는 0보다 큰 숫자여야 합니다. ex) 500");
+            } catch(IllegalStateException e){
+                System.out.println("포인트는 0보다 커야합니다. ex) 500");
+            }
+        }
+        return toInt(input);
+    }
 }
