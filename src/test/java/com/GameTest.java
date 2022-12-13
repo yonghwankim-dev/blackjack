@@ -115,14 +115,14 @@ public class GameTest {
 
     @DisplayName("100 배팅 포인트를 입력하는 테스트")
     @ParameterizedTest
-    @ValueSource(strings = {"100"})
+    @ValueSource(strings = {"500\n100"})
     public void testInputPlayerPointBatting(String input){
         //given
         InputStream in = generateInputStream(input);
         System.setIn(in);
         Player player = new Player("KYH");
         Game game = new Game(player, new Dealer());
-        game.addPoint(player, 500);
+        game.addPoint(player);
         //when
         int actual = game.inputPlayerPointBatting();
         //then
@@ -131,16 +131,16 @@ public class GameTest {
 
     @DisplayName("100포인트를 가진 플레이어가 200포인트를 베팅하는 경우 테스트")
     @ParameterizedTest
-    @ValueSource(strings = {"200\n100"})
+    @ValueSource(strings = {"100\n200\n100"})
     public void testInputPlayerPointBatting_whenBattingPointIsNotEnough(String input){
         //given
         InputStream in = generateInputStream(input);
         System.setIn(in);
         Player player = new Player("KYH");
         Game game = new Game(player, new Dealer());
-        game.addPoint(player, 100);
+        game.addPoint(player);
         //when
-        int actual = game.inputPlayerPointBatting();
+        game.inputPlayerPointBatting();
         //then
         assertThatThrownBy(()-> {throw new PointBattingNotEnoughException(player);});
     }
@@ -206,6 +206,28 @@ public class GameTest {
             }
         }
         return result;
+    }
+
+    @DisplayName("플레이어가 입력한 정보를 보여주는 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"KYH\n500"})
+    public void testShowPlayerInputConfirm(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        GameInput gameInput = new GameInput();
+        String name = gameInput.inputPlayerName();
+        int point = gameInput.inputPlayerPoint(name);
+        Player player = new Player(name, point);
+        Game game = new Game(player, new Dealer());
+        //when
+        game.showPlayerInputConfirm();
+        //then
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[2]).isEqualTo("입력정보를 확인해주세요");
+        assertThat(outputs[3]).isEqualTo("-------------------------------");
+        assertThat(outputs[4]).isEqualTo("NAME : KYH, POINT : 500");
+        assertThat(outputs[5]).isEqualTo("-------------------------------");
     }
 
 }
