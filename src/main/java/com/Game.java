@@ -9,14 +9,17 @@ public class Game {
     private final Player player;
     private final Dealer dealer;
     private final GameInput gameInput;
+    private final OutputView view;
     private final Set<Card> cardSet;
     public Game(Player player, Dealer dealer) {
         this.player = player;
         this.dealer = dealer;
         this.gameInput = new GameInput();
+        this.view = new OutputView();
         this.cardSet = createCardDeck(CARD_DECK_NUMBER);
+
     }
-    
+
     public String inputPlayerName(){
         return gameInput.inputPlayerName();
     }
@@ -26,7 +29,11 @@ public class Game {
     }
 
     public int inputPlayerPoint() {
-        return gameInput.inputPlayerPoint(player);
+        return gameInput.inputPlayerPoint(player.getName());
+    }
+
+    public int inputPlayerPointBatting() {
+        return gameInput.inputPlayerPointBatting(player);
     }
 
     public Set<Card> createCardDeck(int n){
@@ -45,11 +52,15 @@ public class Game {
         return result;
     }
 
-    public int inputPlayerPointBatting() {
-        return gameInput.inputPlayerPointBatting(player);
+    public void addPoint(Player player){
+        if(player == null){
+            return;
+        }
+        int point = inputPlayerPoint();
+        player.addPoint(point);
     }
 
-    public void addPoint(Player player, int point){
-        player.addPoint(point);
+    public void showPlayerInputConfirm() {
+        view.showPlayerInputConfirm(player);
     }
 }

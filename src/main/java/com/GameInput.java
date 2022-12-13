@@ -59,10 +59,10 @@ public class GameInput {
         return Integer.parseInt(text);
     }
 
-    public int inputPlayerPoint(Player player) {
+    public int inputPlayerPoint(String name) {
         String input;
         while(true){
-            System.out.printf("%3s님의 포인트는 얼마입니까?%n", player.getName());
+            System.out.printf("%3s님의 포인트는 얼마입니까?%n", name);
             try{
                 input = br.readLine();
                 if(!GameInputValidate.validatePlayerPoint(input)) throw new PointNumberFormatException();
