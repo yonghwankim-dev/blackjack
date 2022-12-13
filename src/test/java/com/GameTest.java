@@ -61,6 +61,56 @@ public class GameTest {
         assertThat(outputs[1]).isEqualTo("적절하지 않은 이름입니다. ex) KYH");
     }
 
+    @DisplayName("플레이어에게 포인트를 물어보는 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"500"})
+    public void testInputPlayerPoint(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Game game = new Game(new Player("KYH"), new Dealer());
+        //when
+        int actual = game.inputPlayerPoint();
+        //then
+        assertThat(actual).isEqualTo(500);
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("KYH님의 포인트는 얼마입니까?");
+    }
+
+    @DisplayName("플레이어가 0포인트를 입력하는 경우의 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"0\n500"})
+    public void testInputPlayerPoint_whenInvalidInput_thenOutputWarning(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Game game = new Game(new Player("KYH"), new Dealer());
+        //when
+        int actual = game.inputPlayerPoint();
+        //then
+        assertThat(actual).isEqualTo(500);
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("KYH님의 포인트는 얼마입니까?");
+        assertThat(outputs[1]).isEqualTo("포인트는 0보다 커야합니다. ex) 500");
+    }
+
+    @DisplayName("플레이어가 포인트 입력시 숫자가 아닌 것을 입력하는 경우의 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"abc\n500"})
+    public void testInputPlayerPoint_whenInvalidInputWithNotNumber_thenOutputWarning(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Game game = new Game(new Player("KYH"), new Dealer());
+        //when
+        int actual = game.inputPlayerPoint();
+        //then
+        assertThat(actual).isEqualTo(500);
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("KYH님의 포인트는 얼마입니까?");
+        assertThat(outputs[1]).isEqualTo("포인트는 0보다 큰 숫자여야 합니다. ex) 500");
+    }
+
     @DisplayName("플레이어가 히트를 입력하는 경우")
     @ParameterizedTest
     @ValueSource(strings = {"1"})
@@ -114,7 +164,7 @@ public class GameTest {
         Set<Card> result = new HashSet<>();
         String[] shapes = {"CLOVER", "HEART", "DIAMOND", "SPADE"};
         String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+        int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
         for(String shape : shapes){
             for(int i = 0; i < names.length; i++){
@@ -123,4 +173,5 @@ public class GameTest {
         }
         return result;
     }
+
 }
