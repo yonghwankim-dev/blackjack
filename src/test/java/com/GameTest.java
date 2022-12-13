@@ -1,5 +1,6 @@
 package com;
 
+import com.exception.PointBattingNotEnoughException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class GameTest {
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -91,7 +93,7 @@ public class GameTest {
         assertThat(actual).isEqualTo(500);
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("KYH님의 포인트는 얼마입니까?");
-        assertThat(outputs[1]).isEqualTo("포인트는 0보다 커야합니다. ex) 500");
+        assertThat(outputs[1]).isEqualTo("포인트는 0보다 큰 숫자여야 합니다. ex) 500");
     }
 
     @DisplayName("플레이어가 포인트 입력시 숫자가 아닌 것을 입력하는 경우의 테스트")
@@ -109,6 +111,38 @@ public class GameTest {
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("KYH님의 포인트는 얼마입니까?");
         assertThat(outputs[1]).isEqualTo("포인트는 0보다 큰 숫자여야 합니다. ex) 500");
+    }
+
+    @DisplayName("100 배팅 포인트를 입력하는 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"100"})
+    public void testInputPlayerPointBatting(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Player player = new Player("KYH");
+        Game game = new Game(player, new Dealer());
+        game.addPoint(player, 500);
+        //when
+        int actual = game.inputPlayerPointBatting();
+        //then
+        assertThat(actual).isEqualTo(100);
+    }
+
+    @DisplayName("100포인트를 가진 플레이어가 200포인트를 베팅하는 경우 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"200\n100"})
+    public void testInputPlayerPointBatting_whenBattingPointIsNotEnough(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        Player player = new Player("KYH");
+        Game game = new Game(player, new Dealer());
+        game.addPoint(player, 100);
+        //when
+        int actual = game.inputPlayerPointBatting();
+        //then
+        assertThatThrownBy(()-> {throw new PointBattingNotEnoughException(player);});
     }
 
     @DisplayName("플레이어가 히트를 입력하는 경우")
