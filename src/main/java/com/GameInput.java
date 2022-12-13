@@ -1,5 +1,10 @@
 package com;
 
+import com.exception.InvalidPlayerChoseException;
+import com.exception.InvalidPlayerNameException;
+import com.exception.PointBattingNotEnoughException;
+import com.exception.PointNumberFormatException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,10 +25,12 @@ public class GameInput {
         while(true){
             try {
                 name = br.readLine();
-                if(!validatePlayerName(name)) throw new IOException();
+                if(!validatePlayerName(name)) throw new InvalidPlayerNameException();
                 break;
+            }catch (InvalidPlayerNameException e){
+                System.out.println(e.getMessage());
             } catch (IOException e) {
-                System.out.println("적절하지 않은 이름입니다. ex) KYH");
+                throw new RuntimeException(e);
             }
         }
         return name;
@@ -37,10 +44,12 @@ public class GameInput {
             System.out.println("2. 스탠드(stand)");
             try{
                 input = br.readLine();
-                if(!validatePlayerChose(input)) throw new IOException();
+                if(!validatePlayerChose(input)) throw new InvalidPlayerChoseException();
                 break;
+            } catch (InvalidPlayerChoseException e) {
+                System.out.println(e.getMessage());
             } catch (IOException e) {
-                System.out.println("잘못된 선택입니다. ex) 1");
+                throw new RuntimeException(e);
             }
         }
         return toInt(input);
@@ -56,15 +65,37 @@ public class GameInput {
             System.out.printf("%3s님의 포인트는 얼마입니까?%n", player.getName());
             try{
                 input = br.readLine();
-                if(!GameInputValidate.validatePlayerPoint(input)) throw new IOException();
-                if(toInt(input) <= 0) throw new IllegalStateException();
+                if(!GameInputValidate.validatePlayerPoint(input)) throw new PointNumberFormatException();
+                if(toInt(input) <= 0) throw new PointNumberFormatException();
                 break;
+            } catch (PointNumberFormatException e) {
+                System.out.println(e.getMessage());
             } catch (IOException e) {
-                System.out.println("포인트는 0보다 큰 숫자여야 합니다. ex) 500");
-            } catch(IllegalStateException e){
-                System.out.println("포인트는 0보다 커야합니다. ex) 500");
+                throw new RuntimeException(e);
             }
         }
         return toInt(input);
+    }
+
+    public int inputPlayerPointBatting(Player player) {
+        String input;
+        while(true){
+            System.out.printf("%3s님 포인트를 얼마나 베팅하시겠습니까?%n", player.getName());
+            try{
+                input = br.readLine();
+                if(!GameInputValidate.validatePlayerPoint(input)) throw new PointNumberFormatException();
+                if(!isEnoughPointBatting(player, toInt(input))) throw new PointBattingNotEnoughException(player);
+                break;
+            } catch (PointNumberFormatException | PointBattingNotEnoughException e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return toInt(input);
+    }
+
+    private boolean isEnoughPointBatting(Player player, int point){
+        return point > 0 && point <= player.getPoint();
     }
 }

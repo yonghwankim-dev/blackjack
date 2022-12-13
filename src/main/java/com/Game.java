@@ -16,17 +16,17 @@ public class Game {
         this.gameInput = new GameInput();
         this.cardSet = createCardDeck(CARD_DECK_NUMBER);
     }
-
-    public void start(){
-
-    }
-
+    
     public String inputPlayerName(){
         return gameInput.inputPlayerName();
     }
 
     public int inputPlayerChose(){
         return gameInput.inputPlayerChose(player);
+    }
+
+    public int inputPlayerPoint() {
+        return gameInput.inputPlayerPoint(player);
     }
 
     public Set<Card> createCardDeck(int n){
@@ -45,19 +45,11 @@ public class Game {
         return result;
     }
 
-    public void showHands(){
-
+    public int inputPlayerPointBatting() {
+        return gameInput.inputPlayerPointBatting(player);
     }
 
-    public void showDealerChose(){
-
-    }
-
-    public void showResult(){
-
-    }
-
-    public int inputPlayerPoint() {
-        return gameInput.inputPlayerPoint(player);
+    public void addPoint(Player player, int point){
+        player.addPoint(point);
     }
 }
