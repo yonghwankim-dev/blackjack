@@ -8,10 +8,14 @@ public class Player {
     private final List<Card> hands;
     private int point;
 
-    public Player(String name) {
+    public Player(String name){
+        this(name, 0);
+    }
+
+    public Player(String name, int point) {
         this.name = name;
         this.hands = new ArrayList<>();
-        this.point = 0;
+        this.point = point;
     }
 
     public void hit(){
