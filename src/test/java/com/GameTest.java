@@ -292,5 +292,4 @@ public class GameTest {
         assertThat(playerHands.size()).isEqualTo(2);
         assertThat(dealerHands.size()).isEqualTo(2);
     }
-
 }
