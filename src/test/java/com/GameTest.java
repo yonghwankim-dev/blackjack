@@ -230,4 +230,17 @@ public class GameTest {
         assertThat(outputs[5]).isEqualTo("-------------------------------");
     }
 
+    @DisplayName("플레이어에게 남은 포인트를 말해주는 테스트")
+    @Test
+    public void testShowPlayerRemainingPoint(){
+        //given
+        Player player = new Player("KYH", 500);
+        Game game = new Game(player, new Dealer());
+        //when
+        game.showPlayerRemainingPoint();
+        //then
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("KYH님의 남은 포인트 : 500");
+    }
+
 }
