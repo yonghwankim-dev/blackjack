@@ -1,5 +1,6 @@
 package com;
 
+import com.exception.InvalidPlayerChoseException;
 import com.exception.PointBattingNotEnoughException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -308,5 +309,72 @@ public class GameTest {
         //then
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("DEALER 승");
+    }
+
+    @DisplayName("플레이어가 게임을 계속 진행할것인지 입력받는 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"Y"})
+    public void testInputContinueGameChose(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        //when
+        String actual = game.inputContinueGameChose();
+        //then
+        assertThat(actual).isEqualTo("Y");
+    }
+
+    @DisplayName("플레이어가 게임을 계속 진행할것인지 입력을 받는데 잘못 입력하는 경우 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"YN\nY", " \nY", "213\nY", "yn\nY"})
+    public void testInputContinueGameChose_whenInvalidInput_thenOutputWarning(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        //when
+        String actual = game.inputContinueGameChose();
+        //then
+        assertThatThrownBy(()-> {throw new InvalidPlayerChoseException();});
+        assertThat(actual).isEqualTo("Y");
+    }
+
+    @DisplayName("플레이어가 승리시 베팅한 금액의 2배를 돌려주는 테스트")
+    @Test
+    public void testGivePointToWinner(){
+        //given
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        int battingPoint = 50;
+        //when
+        game.givePointToWinner(battingPoint);
+        //then
+        assertThat(player.getPoint()).isEqualTo(600);
+    }
+
+    @DisplayName("플레이어 또는 딜러의 점수합이 버스트(점수가 21초과)인지 테스트")
+    @Test
+    public void testIsBurst(){
+        //given
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        player.addCard(new Card("10", Shape.HEART, 10));
+        player.addCard(new Card("J", Shape.HEART, 10));
+        player.addCard(new Card("2", Shape.HEART, 2));
+        dealer.addCard(new Card("5", Shape.HEART, 5));
+        dealer.addCard(new Card("6", Shape.HEART, 6));
+        //when
+        boolean actual1 = game.isBurst(player);
+        boolean actual2 = game.isBurst(dealer);
+        //then
+        assertThat(actual1).isTrue();
+        assertThat(actual2).isFalse();
     }
 }
