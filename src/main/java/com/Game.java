@@ -115,4 +115,13 @@ public class Game {
     public String inputContinueGameChose() {
         return gameInput.inputContinueGameChose(dealer);
     }
+
+    public void givePointToWinner(int point) {
+        Player winner = (Player) player;
+        winner.addPoint(point * 2);
+    }
+
+    public boolean isBurst(User user) {
+        return user.getScore() > 21;
+    }
 }
