@@ -63,4 +63,8 @@ public class Game {
     public void showPlayerInputConfirm() {
         view.showPlayerInputConfirm(player);
     }
+
+    public void showPlayerRemainingPoint() {
+        view.showPlayerRemainingPoint(player);
+    }
 }

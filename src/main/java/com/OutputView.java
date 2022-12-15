@@ -7,4 +7,8 @@ public class OutputView {
         System.out.printf("NAME : %-3s, POINT : %d%n", player.getName(), player.getPoint());
         System.out.println("-------------------------------");
     }
+
+    public void showPlayerRemainingPoint(Player player) {
+        System.out.printf("%3s님의 남은 포인트 : %d%n", player.getName(), player.getPoint());
+    }
 }
