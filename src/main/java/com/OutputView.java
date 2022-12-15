@@ -33,10 +33,12 @@ public class OutputView {
         String playerHands = formatHands(player.getHands());
         int handsLen = Math.max(dealerHands.length(), playerHands.length());
         String handsHeader = String.format(String.format("%%-%ds", handsLen), "HANDS");
+        String dealerHandsContent = String.format(String.format("%%-%ds", handsLen), dealerHands);
+        String playerHandsContent = String.format(String.format("%%-%ds", handsLen), playerHands);
 
         System.out.printf("|  %-6s  |  %s  |  SCORE  |%n", nameHeader, handsHeader);
-        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", dealer.getName(), dealerHands, dealer.getScore());
-        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", player.getName(), playerHands, player.getScore());
+        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", dealer.getName(), dealerHandsContent, dealer.getScore());
+        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", player.getName(), playerHandsContent, player.getScore());
     }
 
     private String formatHands(List<Card> cards){
