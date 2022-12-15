@@ -78,7 +78,6 @@ public class Game {
         view.showPlayerChoseResult(player, result);
     }
 
-    // 딜러와 플레이어에게 카드 cardNum 장씩 나눠줌
     public void dealingCardAll(int cardNum){
         for(int i = 0; i < cardNum; i++){
             dealingCard(player);
@@ -91,5 +90,9 @@ public class Game {
         int randomIdx = random.ints(0, cards.size()).findFirst().getAsInt();
         Card randomCard = cards.remove(randomIdx);
         user.addCard(randomCard);
+    }
+
+    public void dealingCardOneToUser(User user){
+        dealingCard(user);
     }
 }

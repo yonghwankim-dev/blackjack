@@ -3,7 +3,6 @@ package com;
 import java.util.ArrayList;
 
 public class Player extends User{
-    private final String name;
     private int point;
 
     public Player(String name){
@@ -11,8 +10,7 @@ public class Player extends User{
     }
 
     public Player(String name, int point) {
-        super(new ArrayList<>());
-        this.name = name;
+        super(name, new ArrayList<>());
         this.point = point;
     }
 
@@ -22,10 +20,6 @@ public class Player extends User{
 
     public void stand(){
 
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getPoint() {

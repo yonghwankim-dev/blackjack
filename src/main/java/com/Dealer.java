@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Dealer extends User{
     public Dealer() {
-        super(new ArrayList<>());
+        super("딜러", new ArrayList<>());
     }
 
     public void hit(){
@@ -17,11 +17,6 @@ public class Dealer extends User{
 
     public void dealing(){
 
-    }
-
-    @Override
-    public String getName() {
-        return "딜러";
     }
 
     @Override
