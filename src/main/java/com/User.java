@@ -24,4 +24,8 @@ public abstract class User {
     }
 
     public abstract int getPoint();
+
+    public int getScore() {
+        return hands.stream().mapToInt(Card::getValue).sum();
+    }
 }
