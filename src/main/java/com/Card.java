@@ -37,4 +37,9 @@ public class Card {
     public int hashCode() {
         return Objects.hash(getName(), getShape());
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s%3d", shape.getValue(), value);
+    }
 }
