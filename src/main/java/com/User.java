@@ -33,4 +33,8 @@ public abstract class User implements Comparable<User> {
     public int compareTo(User user) {
         return Integer.compare(getScore(), user.getScore());
     }
+
+    public void resetHands(){
+        hands.clear();
+    }
 }
