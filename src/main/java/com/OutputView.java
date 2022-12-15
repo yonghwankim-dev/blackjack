@@ -42,4 +42,12 @@ public class OutputView {
     private String formatHands(List<Card> cards){
         return cards.stream().map(Card::toString).collect(Collectors.joining(","));
     }
+
+    public void showWinner(User user){
+        System.out.printf("%s 승%n", user.getName());
+    }
+
+    public void showDraw(){
+        System.out.println("무승부");
+    }
 }

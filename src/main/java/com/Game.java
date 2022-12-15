@@ -99,4 +99,16 @@ public class Game {
     public void showHands() {
         view.showHands(player, dealer);
     }
+
+    public void compareScore() {
+        if(dealer.compareTo(player) > 0){ // 딜러 승
+            view.showWinner(dealer);
+        }
+        if(dealer.compareTo(player) < 0){ // 플레이어 승
+            view.showWinner(player);
+        }
+        if(dealer.compareTo(player) == 0){ // 무승부
+            view.showDraw();
+        }
+    }
 }
