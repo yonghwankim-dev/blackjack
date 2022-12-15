@@ -2,7 +2,7 @@ package com;
 
 import java.util.List;
 
-public abstract class User {
+public abstract class User implements Comparable<User> {
     private final String name;
     private final List<Card> hands;
 
@@ -27,5 +27,10 @@ public abstract class User {
 
     public int getScore() {
         return hands.stream().mapToInt(Card::getValue).sum();
+    }
+
+    @Override
+    public int compareTo(User user) {
+        return Integer.compare(getScore(), user.getScore());
     }
 }
