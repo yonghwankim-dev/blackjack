@@ -292,4 +292,21 @@ public class GameTest {
         assertThat(playerHands.size()).isEqualTo(2);
         assertThat(dealerHands.size()).isEqualTo(2);
     }
+    
+    @Test
+    public void testCompareScore(){
+        //given
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        player.addCard(new Card("3", Shape.HEART, 3));
+        player.addCard(new Card("4", Shape.HEART, 4));
+        dealer.addCard(new Card("5", Shape.HEART, 5));
+        dealer.addCard(new Card("6", Shape.HEART, 6));
+        //when
+        game.compareScore();
+        //then
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("DEALER 승");
+    }
 }
