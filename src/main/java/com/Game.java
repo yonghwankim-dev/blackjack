@@ -1,22 +1,23 @@
 package com;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Game {
     private static final int CARD_DECK_NUMBER = 4;
 
-    private final Player player;
-    private final Dealer dealer;
+    private final User player;
+    private final User dealer;
     private final GameInput gameInput;
     private final OutputView view;
-    private final Set<Card> cardSet;
-    public Game(Player player, Dealer dealer) {
+    private final List<Card> cards;
+    public Game(User player, User dealer) {
         this.player = player;
         this.dealer = dealer;
         this.gameInput = new GameInput();
         this.view = new OutputView();
-        this.cardSet = createCardDeck(CARD_DECK_NUMBER);
+        this.cards = createCardDeck(CARD_DECK_NUMBER);
 
     }
 
@@ -36,9 +37,9 @@ public class Game {
         return gameInput.inputPlayerPointBatting(player);
     }
 
-    public Set<Card> createCardDeck(int n){
-        Set<Card> result = new HashSet<>();
-        String[] shapes = {"CLOVER", "HEART", "DIAMOND", "SPADE"};
+    public List<Card> createCardDeck(int n){
+        List<Card> result = new ArrayList<>();
+        Shape[] shapes = {Shape.HEART, Shape.DIAMOND, Shape.CLOVER, Shape.SPADE};
         String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
@@ -75,5 +76,20 @@ public class Game {
     public void showPlayerChoseResult(int chose) {
         String result = chose == 1 ? "히트" : "스탠드";
         view.showPlayerChoseResult(player, result);
+    }
+
+    // 딜러와 플레이어에게 카드 cardNum 장씩 나눠줌
+    public void dealingCardAll(int cardNum){
+        for(int i = 0; i < cardNum; i++){
+            dealingCard(player);
+            dealingCard(dealer);
+        }
+    }
+
+    private void dealingCard(User user){
+        Random random = new Random();
+        int randomIdx = random.ints(0, cards.size()).findFirst().getAsInt();
+        Card randomCard = cards.remove(randomIdx);
+        user.addCard(randomCard);
     }
 }
