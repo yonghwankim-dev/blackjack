@@ -6,8 +6,8 @@ public enum Shape {
     CLOVER("CLOVER", "♧"),
     SPADE("SPADE", "♤");
 
-    private String name;
-    private String value;
+    private final String name;
+    private final String value;
 
     Shape(String name, String value) {
         this.name = name;
