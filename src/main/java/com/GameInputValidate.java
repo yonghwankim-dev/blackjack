@@ -6,6 +6,7 @@ public class GameInputValidate {
     private static final Pattern PLAYER_NAME = Pattern.compile("[A-Z]{3}"); // 대문자 영어 3글자
     private static final Pattern PLAYER_CHOSE = Pattern.compile("[1-2]"); // 1~2번 1글자
     private static final Pattern PLAYER_POINT = Pattern.compile("^\\d+$"); // 1개 이상의 숫자
+    private static final Pattern YN = Pattern.compile("[YN]");
     public static boolean validatePlayerName(String input){
         return PLAYER_NAME.matcher(input).matches();
     }
@@ -16,5 +17,9 @@ public class GameInputValidate {
 
     public static boolean validatePlayerPoint(String input) {
         return PLAYER_POINT.matcher(input).matches();
+    }
+
+    public static boolean validateContinueGameChose(String input) {
+        return YN.matcher(input).matches();
     }
 }

@@ -111,4 +111,8 @@ public class Game {
             view.showDraw();
         }
     }
+
+    public String inputContinueGameChose() {
+        return gameInput.inputContinueGameChose(dealer);
+    }
 }

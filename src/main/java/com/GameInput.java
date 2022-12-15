@@ -1,9 +1,6 @@
 package com;
 
-import com.exception.InvalidPlayerChoseException;
-import com.exception.InvalidPlayerNameException;
-import com.exception.PointBattingNotEnoughException;
-import com.exception.PointNumberFormatException;
+import com.exception.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -97,5 +94,23 @@ public class GameInput {
 
     private boolean isEnoughPointBatting(User player, int point){
         return point > 0 && point <= player.getPoint();
+    }
+
+    public String inputContinueGameChose(User dealer) {
+        String yn;
+        System.out.printf("%s : 게임을 계속 진행하시겠습니까? (Y/N)", dealer.getName());
+
+        while(true){
+            try {
+                yn = br.readLine();
+                if(!GameInputValidate.validateContinueGameChose(yn)) throw new InvalidContinueGameChose();
+                break;
+            }catch (InvalidContinueGameChose e){
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return yn;
     }
 }
