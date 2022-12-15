@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Dealer extends User{
     public Dealer() {
-        super("딜러", new ArrayList<>());
+        super("DEALER", new ArrayList<>());
     }
 
     public void hit(){
