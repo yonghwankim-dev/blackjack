@@ -12,8 +12,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -187,20 +188,20 @@ public class GameTest {
     public void testCreateCardDeck(){
         //given
         Game game = new Game(new Player("KYH"), new Dealer());
-        Set<Card> expected = createCardDeckExpected();
+        List<Card> expected = createCardDeckExpected();
         //when
-        Set<Card> actual = game.createCardDeck(4);
+        List<Card> actual = game.createCardDeck(4);
         //then
         assertThat(actual).containsExactlyElementsOf(expected);
     }
 
-    private Set<Card> createCardDeckExpected(){
-        Set<Card> result = new HashSet<>();
-        String[] shapes = {"CLOVER", "HEART", "DIAMOND", "SPADE"};
+    private List<Card> createCardDeckExpected(){
+        List<Card> result = new ArrayList<>();
+        Shape[] shapes = {Shape.HEART, Shape.DIAMOND, Shape.CLOVER, Shape.SPADE};
         String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
-        for(String shape : shapes){
+        for(Shape shape : shapes){
             for(int i = 0; i < names.length; i++){
                 result.add(new Card(names[i], shape, values[i]));
             }
@@ -269,4 +270,27 @@ public class GameTest {
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("딜러 : KYH님 히트를 선택하셨습니다.");
     }
+
+    @DisplayName("딜러와 플레이어에게 카드 두장씩 나눠주는 테스트")
+    @Test
+    public void testDealingCardAll() throws NoSuchFieldException, IllegalAccessException {
+        //given
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        //when
+        game.dealingCardAll(2);
+        //then
+        Field playerHandsField = player.getClass().getSuperclass().getDeclaredField("hands");
+        Field dealerHandsField = dealer.getClass().getSuperclass().getDeclaredField("hands");
+        playerHandsField.setAccessible(true);
+        dealerHandsField.setAccessible(true);
+
+        List<Card> playerHands = (List<Card>) playerHandsField.get(player);
+        List<Card> dealerHands = (List<Card>) dealerHandsField.get(dealer);
+
+        assertThat(playerHands.size()).isEqualTo(2);
+        assertThat(dealerHands.size()).isEqualTo(2);
+    }
+
 }
