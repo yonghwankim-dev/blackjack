@@ -8,8 +8,12 @@ public class Dealer extends User{
         super("DEALER", new ArrayList<>());
     }
 
-    public void hit(){
+    public void hit(Game game){
+        hit(game, CardStatus.OPEN);
+    }
 
+    public void hit(Game game, CardStatus status){
+        game.dealingCardOneToUser(this, status);
     }
 
     public void stand(){
@@ -18,6 +22,10 @@ public class Dealer extends User{
 
     public void dealing(){
 
+    }
+
+    public boolean isNeedHit(){
+        return getScore() <= 16;
     }
 
     @Override
@@ -32,5 +40,9 @@ public class Dealer extends User{
 
         // 첫번째 카드만 오픈 상태로 설정
         hands.get(0).toOpen();
+    }
+
+    public void openAllCard() {
+        getHands().stream().forEach(Card::toOpen);
     }
 }

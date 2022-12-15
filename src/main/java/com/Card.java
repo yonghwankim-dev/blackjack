@@ -61,4 +61,8 @@ public class Card {
     public boolean isOpened(){
         return this.status == CardStatus.OPEN;
     }
+
+    public void setStatus(CardStatus status) {
+        this.status = status;
+    }
 }

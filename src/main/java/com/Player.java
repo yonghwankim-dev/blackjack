@@ -14,8 +14,8 @@ public class Player extends User{
         this.point = point;
     }
 
-    public void hit(){
-
+    public void hit(Game game){
+        game.dealingCardOneToUser(this);
     }
 
     public void stand(){

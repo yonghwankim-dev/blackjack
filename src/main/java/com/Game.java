@@ -6,12 +6,14 @@ import java.util.Random;
 
 public class Game {
     private static final int CARD_DECK_NUMBER = 4;
+    private static final int DEALER_WIN = 1;
+    private static final int PLAYER_WIN = -1;
 
     private final Player player;
     private final Dealer dealer;
     private final GameInput gameInput;
     private final OutputView view;
-    private final List<Card> cards;
+    private List<Card> cards;
 
     public Game(User player, User dealer) {
         this.player = (Player) player;
@@ -19,36 +21,70 @@ public class Game {
         this.gameInput = new GameInput();
         this.view = new OutputView();
         this.cards = createCardDeck(CARD_DECK_NUMBER);
-
     }
 
     public void start(){
+        String yn = "Y";
+        int compareScoreResult;
         showStartGame();
-        while(player.getPoint() > 0){
-            showPlayerRemainingPoint();
-            int batting = inputPlayerPointBatting();
-            showHandDealingToPlayer();
-            dealingCardAll(2);
+        while(yn.equals("Y")){
+            // 게임 라운드 초기화 및 배팅 금액 입력
+            int batting = startRound();
 
-            while(true){
-                showHands();
-                int chose = inputPlayerChose();
-                showPlayerChoseResult(chose);
-                if(chose == 1){
-                    dealingCard(player);
-                    continue;
-                }
-                break;
+            compareScoreResult = startDealerTurn();
+            if(compareScoreResult != PLAYER_WIN){
+                compareScoreResult = startPlayerTurn();
             }
-            int compareScoreResult = compareScore();
+
+            // 딜러의 모든 카드 오픈
+            dealer.openAllCard();
+
+            // 비교 결과
+            showHands();
             showCompareScoreResult(compareScoreResult);
             calculateCompareScoreResult(compareScoreResult, batting);
-            String yn = inputContinueGameChose();
-            if(yn.equals("N")){
-                break;
-            }
+            yn = inputContinueGameChose();
         }
         view.showGameEnd(player);
+    }
+
+    private int startDealerTurn() {
+        while(dealer.isNeedHit()){
+            dealer.hit(this, CardStatus.CLOSE);
+        }
+        return isBurst(dealer) ? PLAYER_WIN : DEALER_WIN;
+    }
+
+    private int startPlayerTurn() {
+        int chose = 1;
+        while(chose == 1){
+            showHands();
+            chose = inputPlayerChose();
+            showPlayerChoseResult(chose);
+
+            if(chose == 1){
+                player.hit(this);
+            }
+            if(isBurst(player)){
+                return 1;
+            }
+        }
+        return compareScore();
+    }
+
+    private int startRound() {
+        resetGame();
+        showPlayerRemainingPoint();
+        int batting = inputPlayerPointBatting();
+        showHandDealingToPlayer();
+        dealingCardAll(2);
+        return batting;
+    }
+
+    private void resetGame() {
+        player.resetHands();
+        dealer.resetHands();
+        cards = createCardDeck(4);
     }
 
     private void calculateCompareScoreResult(int result, int point) {
@@ -123,22 +159,30 @@ public class Game {
 
     public void dealingCardAll(int cardNum){
         for(int i = 0; i < cardNum; i++){
-            dealingCard(player);
-            dealingCard(dealer);
+            player.hit(this);
+            dealer.hit(this);
         }
-        Dealer d = (Dealer) dealer;
-        d.closeAllCardExceptOneCard();
+        dealer.closeAllCardExceptOneCard();
     }
 
     private void dealingCard(User user){
+        dealingCard(user, CardStatus.OPEN);
+    }
+
+    private void dealingCard(User user, CardStatus status) {
         Random random = new Random();
         int randomIdx = random.ints(0, cards.size()).findFirst().getAsInt();
         Card randomCard = cards.remove(randomIdx);
+        randomCard.setStatus(status);
         user.addCard(randomCard);
     }
 
     public void dealingCardOneToUser(User user){
         dealingCard(user);
+    }
+
+    public void dealingCardOneToUser(User user, CardStatus status){
+        dealingCard(user, status);
     }
 
     public void showHands() {
@@ -166,7 +210,7 @@ public class Game {
     }
 
     public void givePointToWinner(int point) {
-        Player winner = (Player) player;
+        Player winner = player;
         winner.addPoint(point * 2);
     }
 

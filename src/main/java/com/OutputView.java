@@ -37,7 +37,7 @@ public class OutputView {
         String playerHandsContent = String.format(String.format("%%-%ds", handsLen), playerHands);
 
         System.out.printf("|  %-6s  |  %s  |  SCORE  |%n", nameHeader, handsHeader);
-        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", dealer.getName(), dealerHandsContent, dealer.getScore());
+        System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", dealer.getName(), dealerHandsContent, dealer.getOpenedScore());
         System.out.printf("|  %-6s  |  %s  |  %-5d  |%n", player.getName(), playerHandsContent, player.getScore());
     }
 

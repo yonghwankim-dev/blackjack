@@ -98,7 +98,7 @@ public class GameInput {
 
     public String inputContinueGameChose(User dealer) {
         String yn;
-        System.out.printf("%s : 게임을 계속 진행하시겠습니까? (Y/N)", dealer.getName());
+        System.out.printf("%s : 게임을 계속 진행하시겠습니까? (Y/N)%n", dealer.getName());
 
         while(true){
             try {
