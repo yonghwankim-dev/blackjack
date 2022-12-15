@@ -6,11 +6,13 @@ public class Card {
     private final String name;
     private final Shape shape;
     private final int value;
+    private CardStatus status;
 
     public Card(String name, Shape shape, int value) {
         this.name = name;
         this.shape = shape;
         this.value = value;
+        this.status = CardStatus.OPEN;
     }
 
     public String getName() {
@@ -23,6 +25,10 @@ public class Card {
 
     public int getValue() {
         return value;
+    }
+
+    public CardStatus getStatus() {
+        return status;
     }
 
     @Override
@@ -40,6 +46,19 @@ public class Card {
 
     @Override
     public String toString() {
-        return String.format("%s%3d", shape.getValue(), value);
+        return status == CardStatus.CLOSE ? String.format("%4s", "?") :
+                                                     String.format("%s%3d", shape.getValue(), value);
+    }
+
+    public void toClose() {
+        this.status = CardStatus.CLOSE;
+    }
+
+    public void toOpen() {
+        this.status = CardStatus.OPEN;
+    }
+
+    public boolean isOpened(){
+        return this.status == CardStatus.OPEN;
     }
 }
