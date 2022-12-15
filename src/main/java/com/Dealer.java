@@ -1,9 +1,11 @@
 package com;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class Dealer {
-    private List<Card> hands;
+public class Dealer extends User{
+    public Dealer() {
+        super(new ArrayList<>());
+    }
 
     public void hit(){
 
@@ -17,4 +19,13 @@ public class Dealer {
 
     }
 
+    @Override
+    public String getName() {
+        return "딜러";
+    }
+
+    @Override
+    public int getPoint() {
+        return 0;
+    }
 }

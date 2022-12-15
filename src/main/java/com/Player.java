@@ -1,11 +1,9 @@
 package com;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Player {
+public class Player extends User{
     private final String name;
-    private final List<Card> hands;
     private int point;
 
     public Player(String name){
@@ -13,8 +11,8 @@ public class Player {
     }
 
     public Player(String name, int point) {
+        super(new ArrayList<>());
         this.name = name;
-        this.hands = new ArrayList<>();
         this.point = point;
     }
 
@@ -28,10 +26,6 @@ public class Player {
 
     public String getName() {
         return name;
-    }
-
-    public List<Card> getHands() {
-        return hands;
     }
 
     public int getPoint() {

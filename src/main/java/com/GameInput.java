@@ -36,7 +36,7 @@ public class GameInput {
         return name;
     }
 
-    public int inputPlayerChose(Player player) {
+    public int inputPlayerChose(User player) {
         String input;
         while(true){
             System.out.printf("%3s님 선택해 주세요 ex) 1%n", player.getName());
@@ -77,7 +77,7 @@ public class GameInput {
         return toInt(input);
     }
 
-    public int inputPlayerPointBatting(Player player) {
+    public int inputPlayerPointBatting(User player) {
         String input;
         while(true){
             System.out.printf("%3s님 포인트를 얼마나 베팅하시겠습니까?%n", player.getName());
@@ -95,7 +95,7 @@ public class GameInput {
         return toInt(input);
     }
 
-    private boolean isEnoughPointBatting(Player player, int point){
+    private boolean isEnoughPointBatting(User player, int point){
         return point > 0 && point <= player.getPoint();
     }
 }

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Card {
     private final String name;
-    private final String shape;
+    private final Shape shape;
     private final int value;
 
-    public Card(String name, String shape, int value) {
+    public Card(String name, Shape shape, int value) {
         this.name = name;
         this.shape = shape;
         this.value = value;
@@ -17,7 +17,7 @@ public class Card {
         return name;
     }
 
-    public String getShape() {
+    public Shape getShape() {
         return shape;
     }
 
