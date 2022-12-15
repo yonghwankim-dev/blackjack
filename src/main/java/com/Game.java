@@ -83,6 +83,8 @@ public class Game {
             dealingCard(player);
             dealingCard(dealer);
         }
+        Dealer d = (Dealer) dealer;
+        d.closeAllCardExceptOneCard();
     }
 
     private void dealingCard(User user){
