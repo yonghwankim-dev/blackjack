@@ -95,4 +95,8 @@ public class Game {
     public void dealingCardOneToUser(User user){
         dealingCard(user);
     }
+
+    public void showHands() {
+        view.showHands(player, dealer);
+    }
 }
