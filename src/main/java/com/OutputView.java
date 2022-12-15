@@ -50,4 +50,13 @@ public class OutputView {
     public void showDraw(){
         System.out.println("무승부");
     }
+
+    public void showStartGame() {
+        System.out.println("게임을 시작합니다.");
+    }
+
+    public void showGameEnd(Player player) {
+        System.out.printf("%s님 포인트 : %d%n",player.getName(), player.getPoint());
+        System.out.println("게임을 종료합니다.");
+    }
 }

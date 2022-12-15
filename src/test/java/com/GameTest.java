@@ -72,9 +72,10 @@ public class GameTest {
         //given
         InputStream in = generateInputStream(input);
         System.setIn(in);
-        Game game = new Game(new Player("KYH"), new Dealer());
+        Player player = new Player("KYH");
+        Game game = new Game(player, new Dealer());
         //when
-        int actual = game.inputPlayerPoint();
+        int actual = game.inputPlayerPoint(player.getName());
         //then
         assertThat(actual).isEqualTo(500);
         String[] outputs = output.toString().split("\r\n");
@@ -88,9 +89,10 @@ public class GameTest {
         //given
         InputStream in = generateInputStream(input);
         System.setIn(in);
-        Game game = new Game(new Player("KYH"), new Dealer());
+        Player player = new Player("KYH");
+        Game game = new Game(player, new Dealer());
         //when
-        int actual = game.inputPlayerPoint();
+        int actual = game.inputPlayerPoint(player.getName());
         //then
         assertThat(actual).isEqualTo(500);
         String[] outputs = output.toString().split("\r\n");
@@ -105,9 +107,10 @@ public class GameTest {
         //given
         InputStream in = generateInputStream(input);
         System.setIn(in);
-        Game game = new Game(new Player("KYH"), new Dealer());
+        Player player = new Player("KYH");
+        Game game = new Game(player, new Dealer());
         //when
-        int actual = game.inputPlayerPoint();
+        int actual = game.inputPlayerPoint(player.getName());
         //then
         assertThat(actual).isEqualTo(500);
         String[] outputs = output.toString().split("\r\n");
@@ -305,7 +308,8 @@ public class GameTest {
         dealer.addCard(new Card("5", Shape.HEART, 5));
         dealer.addCard(new Card("6", Shape.HEART, 6));
         //when
-        game.compareScore();
+        int result = game.compareScore();
+        game.showCompareScoreResult(result);
         //then
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("DEALER 승");
@@ -376,6 +380,24 @@ public class GameTest {
         //then
         assertThat(actual1).isTrue();
         assertThat(actual2).isFalse();
+    }
+
+    @DisplayName("플레이어가 히트를 선택하여 카드를 1장 추가하는 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"1"})
+    public void testDealingCardOneToUser(String input){
+        //given
+        InputStream in = generateInputStream(input);
+        System.setIn(in);
+        User player = new Player("KYH", 500);
+        User dealer = new Dealer();
+        Game game = new Game(player, dealer);
+        game.dealingCardAll(2);
+        //when
+        game.inputPlayerChose();
+        game.dealingCardOneToUser(player);
+        //then
+        assertThat(player.getHands().size()).isEqualTo(3);
     }
 
 }

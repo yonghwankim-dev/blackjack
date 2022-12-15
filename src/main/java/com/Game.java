@@ -7,18 +7,57 @@ import java.util.Random;
 public class Game {
     private static final int CARD_DECK_NUMBER = 4;
 
-    private final User player;
-    private final User dealer;
+    private final Player player;
+    private final Dealer dealer;
     private final GameInput gameInput;
     private final OutputView view;
     private final List<Card> cards;
+
     public Game(User player, User dealer) {
-        this.player = player;
-        this.dealer = dealer;
+        this.player = (Player) player;
+        this.dealer = (Dealer) dealer;
         this.gameInput = new GameInput();
         this.view = new OutputView();
         this.cards = createCardDeck(CARD_DECK_NUMBER);
 
+    }
+
+    public void start(){
+        showStartGame();
+        while(player.getPoint() > 0){
+            showPlayerRemainingPoint();
+            int batting = inputPlayerPointBatting();
+            showHandDealingToPlayer();
+            dealingCardAll(2);
+
+            while(true){
+                showHands();
+                int chose = inputPlayerChose();
+                showPlayerChoseResult(chose);
+                if(chose == 1){
+                    dealingCard(player);
+                    continue;
+                }
+                break;
+            }
+            int compareScoreResult = compareScore();
+            showCompareScoreResult(compareScoreResult);
+            calculateCompareScoreResult(compareScoreResult, batting);
+            String yn = inputContinueGameChose();
+            if(yn.equals("N")){
+                break;
+            }
+        }
+        view.showGameEnd(player);
+    }
+
+    private void calculateCompareScoreResult(int result, int point) {
+        if(result > 0){
+            player.addPoint(point * -1);
+        }
+        if(result < 0){
+            player.addPoint(point * 2);
+        }
     }
 
     public String inputPlayerName(){
@@ -29,8 +68,8 @@ public class Game {
         return gameInput.inputPlayerChose(player);
     }
 
-    public int inputPlayerPoint() {
-        return gameInput.inputPlayerPoint(player.getName());
+    public int inputPlayerPoint(String name) {
+        return gameInput.inputPlayerPoint(name);
     }
 
     public int inputPlayerPointBatting() {
@@ -57,7 +96,7 @@ public class Game {
         if(player == null){
             return;
         }
-        int point = inputPlayerPoint();
+        int point = inputPlayerPoint(player.getName());
         player.addPoint(point);
     }
 
@@ -76,6 +115,10 @@ public class Game {
     public void showPlayerChoseResult(int chose) {
         String result = chose == 1 ? "히트" : "스탠드";
         view.showPlayerChoseResult(player, result);
+    }
+
+    public void showStartGame(){
+        view.showStartGame();
     }
 
     public void dealingCardAll(int cardNum){
@@ -102,14 +145,18 @@ public class Game {
         view.showHands(player, dealer);
     }
 
-    public void compareScore() {
-        if(dealer.compareTo(player) > 0){ // 딜러 승
+    public int compareScore() {
+        return dealer.compareTo(player);
+    }
+
+    public void showCompareScoreResult(int result){
+        if(result > 0){
             view.showWinner(dealer);
         }
-        if(dealer.compareTo(player) < 0){ // 플레이어 승
+        if(result < 0){
             view.showWinner(player);
         }
-        if(dealer.compareTo(player) == 0){ // 무승부
+        if(result == 0){
             view.showDraw();
         }
     }
