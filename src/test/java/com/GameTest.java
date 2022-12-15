@@ -243,4 +243,30 @@ public class GameTest {
         assertThat(outputs[0]).isEqualTo("KYH님의 남은 포인트 : 500");
     }
 
+    @DisplayName("플레이어에게 패를 나누어주었다고 테스트")
+    @Test
+    public void testShowHandDealingToPlayer(){
+        //given
+        Player player = new Player("KYH", 500);
+        Game game = new Game(player, new Dealer());
+        //when
+        game.showHandDealingToPlayer();
+        //then
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("딜러 : 패를 나누어줬습니다.");
+    }
+
+    @DisplayName("플레이어에게 어떤 옵션을 선택했다고 말해주는 테스트")
+    @Test
+    public void testShowPlayerChoseResult(){
+        //given
+        Player player = new Player("KYH", 500);
+        Game game = new Game(player, new Dealer());
+        int hit = 1;
+        //when
+        game.showPlayerChoseResult(hit);
+        //then
+        String[] outputs = output.toString().split("\r\n");
+        assertThat(outputs[0]).isEqualTo("딜러 : KYH님 히트를 선택하셨습니다.");
+    }
 }

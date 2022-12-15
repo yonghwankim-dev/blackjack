@@ -67,4 +67,13 @@ public class Game {
     public void showPlayerRemainingPoint() {
         view.showPlayerRemainingPoint(player);
     }
+
+    public void showHandDealingToPlayer() {
+        view.showHandDealingToPlayer();
+    }
+
+    public void showPlayerChoseResult(int chose) {
+        String result = chose == 1 ? "히트" : "스탠드";
+        view.showPlayerChoseResult(player, result);
+    }
 }
