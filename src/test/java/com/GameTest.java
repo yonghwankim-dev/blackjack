@@ -377,4 +377,5 @@ public class GameTest {
         assertThat(actual1).isTrue();
         assertThat(actual2).isFalse();
     }
+
 }
