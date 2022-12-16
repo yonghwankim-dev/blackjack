@@ -19,8 +19,8 @@ public class OutputView {
         System.out.printf("딜러 : 패를 나누어줬습니다.%n");
     }
 
-    public void showPlayerChoseResult(User player, String result) {
-        System.out.printf("딜러 : %3s님 %s를 선택하셨습니다.%n", player.getName(), result);
+    public void showPlayerChoseResult(User player, Chose chose) {
+        System.out.printf("딜러 : %3s님 %s를 선택하셨습니다.%n", player.getName(), chose.getName());
     }
 
     public void showHands(User player, User dealer) {

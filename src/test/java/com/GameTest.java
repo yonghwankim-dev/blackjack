@@ -159,9 +159,9 @@ public class GameTest {
         System.setIn(in);
         Game game = new Game(new Player("KYH"), new Dealer());
         //when
-        int actual = game.inputPlayerChose();
+        Chose actual = game.inputPlayerChose();
         //then
-        assertThat(actual).isEqualTo(1);
+        assertThat(actual).isEqualTo(Chose.HIT);
     }
 
     @DisplayName("플레이어가 입력을 잘못하는 경우")
@@ -173,9 +173,9 @@ public class GameTest {
         System.setIn(in);
         Game game = new Game(new Player("KYH"), new Dealer());
         //when
-        int actual = game.inputPlayerChose();
+        Chose actual = game.inputPlayerChose();
         //then
-        assertThat(actual).isEqualTo(1);
+        assertThat(actual).isEqualTo(Chose.HIT);
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("KYH님 선택해 주세요 ex) 1");
         assertThat(outputs[1]).isEqualTo("1. 히트(hit)");
@@ -267,9 +267,9 @@ public class GameTest {
         //given
         Player player = new Player("KYH", 500);
         Game game = new Game(player, new Dealer());
-        int hit = 1;
+
         //when
-        game.showPlayerChoseResult(hit);
+        game.showPlayerChoseResult(Chose.HIT);
         //then
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("딜러 : KYH님 히트를 선택하셨습니다.");

@@ -56,13 +56,13 @@ public class Game {
     }
 
     private int startPlayerTurn() {
-        int chose = 1;
-        while(chose == 1){
+        Chose chose = Chose.HIT;
+        while(chose.isHIT()){
             showHands();
             chose = inputPlayerChose();
             showPlayerChoseResult(chose);
 
-            if(chose == 1){
+            if(chose.isHIT()){
                 player.hit(this);
             }
             if(isBurst(player)){
@@ -100,8 +100,8 @@ public class Game {
         return gameInput.inputPlayerName();
     }
 
-    public int inputPlayerChose(){
-        return gameInput.inputPlayerChose(player);
+    public Chose inputPlayerChose(){
+        return Chose.toChose(gameInput.inputPlayerChose(player));
     }
 
     public int inputPlayerPoint(String name) {
@@ -148,13 +148,28 @@ public class Game {
         view.showHandDealingToPlayer();
     }
 
-    public void showPlayerChoseResult(int chose) {
-        String result = chose == 1 ? "히트" : "스탠드";
-        view.showPlayerChoseResult(player, result);
+    public void showPlayerChoseResult(Chose chose) {
+        view.showPlayerChoseResult(player, chose);
     }
 
     public void showStartGame(){
         view.showStartGame();
+    }
+
+    public void showHands() {
+        view.showHands(player, dealer);
+    }
+
+    public void showCompareScoreResult(int result){
+        if(result > 0){
+            view.showWinner(dealer);
+        }
+        if(result < 0){
+            view.showWinner(player);
+        }
+        if(result == 0){
+            view.showDraw();
+        }
     }
 
     public void dealingCardAll(int cardNum){
@@ -185,24 +200,8 @@ public class Game {
         dealingCard(user, status);
     }
 
-    public void showHands() {
-        view.showHands(player, dealer);
-    }
-
     public int compareScore() {
         return dealer.compareTo(player);
-    }
-
-    public void showCompareScoreResult(int result){
-        if(result > 0){
-            view.showWinner(dealer);
-        }
-        if(result < 0){
-            view.showWinner(player);
-        }
-        if(result == 0){
-            view.showDraw();
-        }
     }
 
     public String inputContinueGameChose() {
