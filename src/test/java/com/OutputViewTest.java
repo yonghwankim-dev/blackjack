@@ -8,11 +8,11 @@ public class OutputViewTest {
     @Test
     public void testShowHands(){
         //given
-        User player = new Player("KYH", 500);
-        User dealer = new Dealer();
+        Player player = new Player("KYH", 500);
+        Dealer dealer = new Dealer();
         Game game = new Game(player, dealer);
         OutputView view = new OutputView();
-        game.dealingCardAll(2);
+        dealer.dealingTwoCard(player);
         //when
         view.showHands(player, dealer);
         //then
@@ -22,13 +22,22 @@ public class OutputViewTest {
     @Test
     public void testShowHands_whenDealingCardAll_thenDealerCardIsClose(){
         //given
-        User player = new Player("KYH", 500);
-        User dealer = new Dealer();
+        Player player = new Player("KYH", 500);
+        Dealer dealer = new Dealer();
         Game game = new Game(player, dealer);
-        game.dealingCardAll(2);
+        dealer.dealingTwoCard(player);
         //when
         game.showHands();
         //then
     }
 
+    @DisplayName("플레이어에게 남은 포인트를 말해주는 테스트")
+    @Test
+    public void testShowPlayerRemainingPoint(){
+        //given
+        Player player = new Player("KYH", 500);
+        //when
+        OutputView.showRemainingPoint(player);
+        //then
+    }
 }
