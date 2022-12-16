@@ -22,6 +22,6 @@ public enum Chose {
     }
 
     public boolean isHIT(){
-        return name.equals("히트");
+        return this == HIT;
     }
 }
