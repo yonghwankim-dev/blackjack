@@ -45,4 +45,12 @@ public class Dealer extends User{
     public void openAllCard() {
         getHands().stream().forEach(Card::toOpen);
     }
+
+    public void alertDealing() {
+        System.out.printf("%s : 패를 나누어줬습니다.%n", getName());
+    }
+
+    public void alertChose(User user, Chose chose) {
+        System.out.printf("%s : %3s님 %s를 선택하셨습니다.%n", getName(), user.getName(), chose.getName());
+    }
 }
