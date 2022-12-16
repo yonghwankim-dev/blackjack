@@ -242,7 +242,7 @@ public class GameTest {
         Player player = new Player("KYH", 500);
         Game game = new Game(player, new Dealer());
         //when
-        new OutputView().showPlayerRemainingPoint(player);
+        game.showPlayerRemainingPoint();
         //then
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("KYH님의 남은 포인트 : 500");
@@ -255,7 +255,7 @@ public class GameTest {
         Player player = new Player("KYH", 500);
         Game game = new Game(player, new Dealer());
         //when
-        new OutputView().showHandDealingToPlayer();
+        game.showHandDealingToPlayer();
         //then
         String[] outputs = output.toString().split("\r\n");
         assertThat(outputs[0]).isEqualTo("딜러 : 패를 나누어줬습니다.");

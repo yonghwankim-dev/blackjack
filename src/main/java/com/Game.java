@@ -2,6 +2,7 @@ package com;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
     private static final int CARD_DECK_NUMBER = 4;
@@ -25,15 +26,12 @@ public class Game {
     public void start(){
         String yn = "Y";
         int compareScoreResult;
-        view.showStartGame();
+        showStartGame();
         while(yn.equals("Y")){
             // 게임 라운드 초기화 및 배팅 금액 입력
-            int batting = setupRound();
+            int batting = startRound();
 
-            // 딜러 차례
             compareScoreResult = startDealerTurn();
-
-            // 플레이어 차례
             if(compareScoreResult != PLAYER_WIN){
                 compareScoreResult = startPlayerTurn();
             }
@@ -59,7 +57,6 @@ public class Game {
 
     private int startPlayerTurn() {
         int chose = 1;
-
         while(chose == 1){
             showHands();
             chose = inputPlayerChose();
@@ -75,12 +72,12 @@ public class Game {
         return compareScore();
     }
 
-    private int setupRound() {
+    private int startRound() {
         resetGame();
-        view.showPlayerRemainingPoint(player);
+        showPlayerRemainingPoint();
         int batting = inputPlayerPointBatting();
-        view.showHandDealingToPlayer();
-        dealer.dealingCardAll(2, this, player);
+        showHandDealingToPlayer();
+        dealingCardAll(2);
         return batting;
     }
 
@@ -143,9 +140,49 @@ public class Game {
         view.showPlayerInputConfirm(player);
     }
 
+    public void showPlayerRemainingPoint() {
+        view.showPlayerRemainingPoint(player);
+    }
+
+    public void showHandDealingToPlayer() {
+        view.showHandDealingToPlayer();
+    }
+
     public void showPlayerChoseResult(int chose) {
         String result = chose == 1 ? "히트" : "스탠드";
         view.showPlayerChoseResult(player, result);
+    }
+
+    public void showStartGame(){
+        view.showStartGame();
+    }
+
+    public void dealingCardAll(int cardNum){
+        for(int i = 0; i < cardNum; i++){
+            player.hit(this);
+            dealer.hit(this);
+        }
+        dealer.closeAllCardExceptOneCard();
+    }
+
+    private void dealingCard(User user){
+        dealingCard(user, CardStatus.OPEN);
+    }
+
+    private void dealingCard(User user, CardStatus status) {
+        Random random = new Random();
+        int randomIdx = random.ints(0, cards.size()).findFirst().getAsInt();
+        Card randomCard = cards.remove(randomIdx);
+        randomCard.setStatus(status);
+        user.addCard(randomCard);
+    }
+
+    public void dealingCardOneToUser(User user){
+        dealingCard(user);
+    }
+
+    public void dealingCardOneToUser(User user, CardStatus status){
+        dealingCard(user, status);
     }
 
     public void showHands() {
