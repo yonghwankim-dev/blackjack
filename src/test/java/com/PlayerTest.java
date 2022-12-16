@@ -5,6 +5,7 @@ import com.exception.PointBattingNotEnoughException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -207,5 +208,28 @@ public class PlayerTest {
         //then
         assertThat(actual).isEqualTo("Y");
         assertThatThrownBy(()-> {throw new InvalidPlayerChoseException();});
+    }
+
+    @DisplayName("플레이어의 포인트가 증가되느지 테스트")
+    @Test
+    public void testAddPoint(){
+        //given
+        Player player = new Player("KYH", 500);
+        //when
+        player.addPoint(50);
+        //then
+        assertThat(player.getPoint()).isEqualTo(550);
+    }
+
+    @DisplayName("플레이어가 히트를 하여 카드가 추가되었는지 확인 테스트")
+    @Test
+    public void testHit(){
+        //given
+        Player player = new Player("KYH", 500);
+        Dealer dealer = new Dealer();
+        //when
+        player.hit(dealer);
+        //then
+        assertThat(player.getHands().size()).isEqualTo(1);
     }
 }

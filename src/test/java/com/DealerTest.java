@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.CardStatus.OPEN;
+import static com.CardValue.*;
+import static com.Shape.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DealerTest {
@@ -66,13 +68,14 @@ public class DealerTest {
 
     private List<Card> createCardDeckExpected(){
         List<Card> result = new ArrayList<>();
-        Shape[] shapes = {Shape.HEART, Shape.DIAMOND, Shape.CLOVER, Shape.SPADE};
-        String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+        Shape[] shapes = {HEART, DIAMOND, CLOVER, SPADE};
+        CardValue[] values = {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING};
 
-        for(Shape shape : shapes){
-            for(int i = 0; i < names.length; i++){
-                result.add(new Card(names[i], shape, values[i]));
+        int n = 4;
+        for(int i = 0; i < n; i++){
+            int shape_idx = i % shapes.length;
+            for(CardValue value : values){
+                result.add(new Card(value, shapes[shape_idx], OPEN));
             }
         }
         return result;
@@ -87,16 +90,8 @@ public class DealerTest {
         //when
         dealer.dealingTwoCard(player);
         //then
-        Field playerHandsField = player.getClass().getSuperclass().getDeclaredField("hands");
-        Field dealerHandsField = dealer.getClass().getSuperclass().getDeclaredField("hands");
-        playerHandsField.setAccessible(true);
-        dealerHandsField.setAccessible(true);
-
-        List<Card> playerHands = (List<Card>) playerHandsField.get(player);
-        List<Card> dealerHands = (List<Card>) dealerHandsField.get(dealer);
-
-        assertThat(playerHands.size()).isEqualTo(2);
-        assertThat(dealerHands.size()).isEqualTo(2);
+        assertThat(player.getHands().size()).isEqualTo(2);
+        assertThat(player.getHands().size()).isEqualTo(2);
     }
 
     @DisplayName("딜러가 히트를 하여 카드가 추가되는지 테스트")
@@ -115,7 +110,8 @@ public class DealerTest {
     public void testIsNeedHit(){
         //given
         Dealer dealer = new Dealer();
-        dealer.addCard(new Card("A", Shape.CLOVER, 11));
+        dealer.addCard(new Card(ACE, CLOVER, OPEN));
+
         //when
         boolean actual = dealer.isNeedHit();
         //then
@@ -127,8 +123,8 @@ public class DealerTest {
     public void testCloseAllCardExceptOneCard(){
         //given
         Dealer dealer = new Dealer();
-        dealer.addCard(new Card("A", Shape.CLOVER, 11));
-        dealer.addCard(new Card("2", Shape.CLOVER, 2));
+        dealer.addCard(new Card(ACE, CLOVER, OPEN));
+        dealer.addCard(new Card(TWO, CLOVER, OPEN));
         //when
         dealer.closeAllCardExceptOneCard();
         //then
@@ -141,8 +137,8 @@ public class DealerTest {
     public void testOpenAllCard(){
         //given
         Dealer dealer = new Dealer();
-        dealer.addCard(new Card("A", Shape.CLOVER, 11));
-        dealer.addCard(new Card("2", Shape.CLOVER, 2));
+        dealer.addCard(new Card(ACE, CLOVER, OPEN));
+        dealer.addCard(new Card(TWO, CLOVER, OPEN));
         //when
         dealer.openAllCard();
         //then

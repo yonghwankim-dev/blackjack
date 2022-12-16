@@ -4,14 +4,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import static com.CardStatus.OPEN;
+import static com.CardValue.*;
+import static com.Shape.HEART;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GameTest {
@@ -33,25 +34,19 @@ public class GameTest {
     }
 
     @DisplayName("플레이어가 입력한 정보를 보여주는 테스트")
-    @ParameterizedTest
-    @ValueSource(strings = {"KYH\n500"})
-    public void testShowPlayerInputConfirm(String input){
+    @Test
+    public void testShowPlayerInputConfirm(){
         //given
-        InputStream in = generateInputStream(input);
-        System.setIn(in);
-        GameInput gameInput = new GameInput();
-        String name = gameInput.inputPlayerName();
-        int point = gameInput.inputPlayerPoint(name);
-        Player player = new Player(name, point);
+        Player player = new Player("KYH", 500);
         Game game = new Game(player, new Dealer());
         //when
         game.showUser(player);
         //then
         String[] outputs = output.toString().split("\r\n");
-        assertThat(outputs[2]).isEqualTo("입력정보를 확인해주세요");
+        assertThat(outputs[0]).isEqualTo("입력정보를 확인해주세요");
+        assertThat(outputs[1]).isEqualTo("-------------------------------");
+        assertThat(outputs[2]).isEqualTo("NAME : KYH, POINT : 500");
         assertThat(outputs[3]).isEqualTo("-------------------------------");
-        assertThat(outputs[4]).isEqualTo("NAME : KYH, POINT : 500");
-        assertThat(outputs[5]).isEqualTo("-------------------------------");
     }
 
     @Test
@@ -60,10 +55,10 @@ public class GameTest {
         User player = new Player("KYH", 500);
         User dealer = new Dealer();
         Game game = new Game(player, dealer);
-        player.addCard(new Card("3", Shape.HEART, 3));
-        player.addCard(new Card("4", Shape.HEART, 4));
-        dealer.addCard(new Card("5", Shape.HEART, 5));
-        dealer.addCard(new Card("6", Shape.HEART, 6));
+        player.addCard(new Card(THREE, HEART, OPEN));
+        player.addCard(new Card(FOUR, HEART, OPEN));
+        dealer.addCard(new Card(FIVE, HEART, OPEN));
+        dealer.addCard(new Card(SIX, HEART, OPEN));
         //when
         int result = game.compareScore();
         game.showCompareScoreResult(result);
@@ -76,8 +71,8 @@ public class GameTest {
     @Test
     public void testGivePointToWinner(){
         //given
-        User player = new Player("KYH", 500);
-        User dealer = new Dealer();
+        Player player = new Player("KYH", 500);
+        Dealer dealer = new Dealer();
         Game game = new Game(player, dealer);
         int battingPoint = 50;
         //when
@@ -93,11 +88,11 @@ public class GameTest {
         User player = new Player("KYH", 500);
         User dealer = new Dealer();
         Game game = new Game(player, dealer);
-        player.addCard(new Card("10", Shape.HEART, 10));
-        player.addCard(new Card("J", Shape.HEART, 10));
-        player.addCard(new Card("2", Shape.HEART, 2));
-        dealer.addCard(new Card("5", Shape.HEART, 5));
-        dealer.addCard(new Card("6", Shape.HEART, 6));
+        player.addCard(new Card(TEN, HEART, OPEN));
+        player.addCard(new Card(JACK, HEART, OPEN));
+        player.addCard(new Card(TWO, HEART, OPEN));
+        dealer.addCard(new Card(FIVE, HEART, OPEN));
+        dealer.addCard(new Card(SIX, HEART, OPEN));
         //when
         boolean actual1 = game.isBurst(player);
         boolean actual2 = game.isBurst(dealer);

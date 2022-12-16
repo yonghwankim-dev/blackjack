@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.CardStatus.CLOSE;
+import static com.CardStatus.OPEN;
+import static com.CardValue.*;
+
 public class Dealer extends User{
     private List<Card> cards;
 
@@ -15,13 +19,12 @@ public class Dealer extends User{
     public List<Card> createCardDeck(int n){
         List<Card> result = new ArrayList<>();
         Shape[] shapes = {Shape.HEART, Shape.DIAMOND, Shape.CLOVER, Shape.SPADE};
-        String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+        CardValue[] values = {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING};
 
         for(int i = 0; i < n; i++){
             int shape_idx = i % shapes.length;
-            for(int j = 0; j < names.length; j++){
-                result.add(new Card(names[j], shapes[shape_idx], values[j]));
+            for(CardValue value : values){
+                result.add(new Card(value, shapes[shape_idx], OPEN));
             }
         }
 
@@ -29,7 +32,7 @@ public class Dealer extends User{
     }
 
     public void hit(){
-        hit(CardStatus.CLOSE);
+        hit(CLOSE);
     }
 
     public void hit(CardStatus status){
@@ -79,7 +82,7 @@ public class Dealer extends User{
     }
 
     public Card dealingCard() {
-        return dealingCard(CardStatus.OPEN);
+        return dealingCard(OPEN);
     }
 
     public Card dealingCard(CardStatus status) {
@@ -88,5 +91,9 @@ public class Dealer extends User{
         Card card = cards.remove(idx);
         card.setStatus(status);
         return card;
+    }
+
+    public void resetCards(){
+        cards = createCardDeck(4);
     }
 }

@@ -73,6 +73,7 @@ public class Game {
     private void resetCard() {
         player.resetHands();
         dealer.resetHands();
+        dealer.resetCards();
     }
 
     private void calculateCompareScoreResult(int result, int point) {

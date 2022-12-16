@@ -16,4 +16,15 @@ public class ChoseTest {
         //then
         Assertions.assertThat(chose).isEqualTo(Chose.HIT);
     }
+
+    @DisplayName("Chose가 HIT인지 테스트")
+    @Test
+    public void testIsHit(){
+        //given
+
+        //when
+        Chose chose = Chose.HIT;
+        //then
+        Assertions.assertThat(chose.isHIT()).isTrue();
+    }
 }

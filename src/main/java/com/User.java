@@ -24,11 +24,18 @@ public abstract class User implements Comparable<User> {
     }
 
     public int getScore() {
-        return hands.stream().mapToInt(Card::getValue).sum();
+        return hands.stream()
+                    .map(Card::getValue)
+                    .mapToInt(CardValue::getValue)
+                    .sum();
     }
 
     public int getOpenedScore(){
-        return hands.stream().filter(Card::isOpened).mapToInt(Card::getValue).sum();
+        return hands.stream()
+                    .filter(Card::isOpened)
+                    .map(Card::getValue)
+                    .mapToInt(CardValue::getValue)
+                    .sum();
     }
 
     @Override

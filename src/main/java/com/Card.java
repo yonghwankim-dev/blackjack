@@ -2,60 +2,38 @@ package com;
 
 import java.util.Objects;
 
+import static com.CardStatus.CLOSE;
+import static com.CardStatus.OPEN;
+
 public class Card {
-    private final String name;
+    private final CardValue value;
     private final Shape shape;
-    private final int value;
     private CardStatus status;
 
-    public Card(String name, Shape shape, int value) {
-        this.name = name;
-        this.shape = shape;
+    public Card(CardValue value, Shape shape, CardStatus status) {
         this.value = value;
-        this.status = CardStatus.OPEN;
+        this.shape = shape;
+        this.status = status;
     }
 
-    public String getName() {
-        return name;
+    public CardValue getValue() {
+        return value;
     }
 
     public Shape getShape() {
         return shape;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public CardStatus getStatus() {
         return status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Card)) return false;
-        Card card = (Card) o;
-        return getName().equals(card.getName()) && getShape().equals(card.getShape());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getShape());
-    }
-
-    @Override
-    public String toString() {
-        return status == CardStatus.CLOSE ? String.format("%4s", "?") :
-                                                     String.format("%s%3d", shape.getValue(), value);
-    }
-
     public void toOpen() {
-        this.status = CardStatus.OPEN;
+        this.status = OPEN;
     }
 
     public void toClose() {
-        this.status = CardStatus.CLOSE;
+        this.status = CLOSE;
     }
 
     public void setStatus(CardStatus status) {
@@ -63,6 +41,26 @@ public class Card {
     }
 
     public boolean isOpened(){
-        return this.status == CardStatus.OPEN;
+        return this.status == OPEN;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+        Card card = (Card) o;
+        return getValue() == card.getValue() && getShape() == card.getShape();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getValue(), getShape());
+    }
+
+    @Override
+    public String toString() {
+        return status == CLOSE ? String.format("%4s", "?") :
+                String.format("%s%3d", shape.getValue(), value.getValue());
     }
 }
