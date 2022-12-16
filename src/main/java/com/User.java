@@ -23,8 +23,6 @@ public abstract class User implements Comparable<User> {
         return hands;
     }
 
-    public abstract int getPoint();
-
     public int getScore() {
         return hands.stream().mapToInt(Card::getValue).sum();
     }

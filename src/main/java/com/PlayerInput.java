@@ -92,11 +92,11 @@ public class PlayerInput {
         return toInt(input);
     }
 
-    private boolean isEnoughBatting(User player, int point){
+    private boolean isEnoughBatting(Player player, int point){
         return point > 0 && point <= player.getPoint();
     }
 
-    public String inputContinueGame(User dealer) {
+    public String inputContinueGame(Dealer dealer) {
         String yn;
         System.out.printf("%s : 게임을 계속 진행하시겠습니까? (Y/N)%n", dealer.getName());
 

@@ -33,17 +33,12 @@ public class Dealer extends User{
     }
 
     public void hit(CardStatus status){
-        Card card = dealingCard(status);
-        getHands().add(card);
+        Card drawCard = dealingCard(status);
+        addCard(drawCard);
     }
 
     public boolean isNeedHit(){
         return getScore() <= 16;
-    }
-
-    @Override
-    public int getPoint() {
-        return 0;
     }
 
     public void closeAllCardExceptOneCard() {
@@ -51,11 +46,15 @@ public class Dealer extends User{
         closeAllCard();
 
         // 첫번째 카드만 오픈 상태로 설정
-        getHands().get(0).toOpen();
+        openOneCard();
     }
 
     private void closeAllCard(){
         getHands().forEach(Card::toClose);
+    }
+
+    private void openOneCard(){
+        getHands().get(0).toOpen();
     }
 
     public void openAllCard() {
@@ -79,11 +78,11 @@ public class Dealer extends User{
         alertDealing();
     }
 
-    private Card dealingCard() {
+    public Card dealingCard() {
         return dealingCard(CardStatus.OPEN);
     }
 
-    private Card dealingCard(CardStatus status) {
+    public Card dealingCard(CardStatus status) {
         Random random = new Random();
         int idx = random.ints(0, cards.size()).findFirst().getAsInt();
         Card card = cards.remove(idx);

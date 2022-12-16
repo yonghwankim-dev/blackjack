@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputView {
-    public static void showUser(User user) {
+    public static void showUser(Player user) {
         System.out.println("입력정보를 확인해주세요");
         System.out.println("-------------------------------");
         System.out.printf("NAME : %-3s, POINT : %d%n", user.getName(), user.getPoint());
         System.out.println("-------------------------------");
     }
 
-    public static void showRemainingPoint(User user) {
+    public static void showRemainingPoint(Player user) {
         System.out.printf("%3s님의 남은 포인트 : %d%n", user.getName(), user.getPoint());
     }
 
-    public static void showHands(User player, User dealer) {
+    public static void showHands(Player player, Dealer dealer) {
         String dealerName = dealer.getName();
         String playerName = player.getName();
         int nameLen = Math.max(dealerName.length(), playerName.length());
@@ -49,8 +49,8 @@ public class OutputView {
         System.out.println("게임을 시작합니다.");
     }
 
-    public static void showPoint(User user){
-        System.out.printf("%s님 포인트 : %d%n", user.getName(), user.getPoint());
+    public static void showPoint(Player player){
+        System.out.printf("%s님 포인트 : %d%n", player.getName(), player.getPoint());
     }
 
     public static void showGameEnd() {

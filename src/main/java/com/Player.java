@@ -19,8 +19,8 @@ public class Player extends User{
         this.playerInput = new PlayerInput();
     }
 
-    public void hit(){
-        // 구현해야함
+    public void hit(Dealer dealer){
+        addCard(dealer.dealingCard());
     }
 
     public int getPoint() {
@@ -47,7 +47,7 @@ public class Player extends User{
         return playerInput.inputBatting(this);
     }
 
-    public String inputContinueGame(User dealer) {
+    public String inputContinueGame(Dealer dealer) {
         return playerInput.inputContinueGame(dealer);
     }
 }

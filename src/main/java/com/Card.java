@@ -50,19 +50,19 @@ public class Card {
                                                      String.format("%s%3d", shape.getValue(), value);
     }
 
-    public void toClose() {
-        this.status = CardStatus.CLOSE;
-    }
-
     public void toOpen() {
         this.status = CardStatus.OPEN;
     }
 
-    public boolean isOpened(){
-        return this.status == CardStatus.OPEN;
+    public void toClose() {
+        this.status = CardStatus.CLOSE;
     }
 
     public void setStatus(CardStatus status) {
         this.status = status;
+    }
+
+    public boolean isOpened(){
+        return this.status == CardStatus.OPEN;
     }
 }

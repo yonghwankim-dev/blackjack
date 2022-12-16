@@ -3,7 +3,6 @@ package com;
 import static com.OutputView.*;
 
 public class Game {
-    private static final int CARD_DECK_NUMBER = 4;
     private static final int DEALER_WIN = 1;
     private static final int PLAYER_WIN = -1;
 
@@ -62,7 +61,7 @@ public class Game {
             dealer.alertChose(player, chose);
 
             if(chose.isHIT()){
-                player.hit();
+                player.hit(dealer);
             }
             if(isBurst(player)){
                 return 1;
@@ -85,8 +84,6 @@ public class Game {
         }
     }
 
-
-
     public void addPoint(Player player){
         if(player == null){
             return;
@@ -95,8 +92,8 @@ public class Game {
         player.addPoint(point);
     }
 
-    public void showUser(User user) {
-        OutputView.showUser(user);
+    public void showUser(Player player) {
+        OutputView.showUser(player);
     }
 
     public void showStartGame(){
@@ -119,8 +116,8 @@ public class Game {
         }
     }
 
-    public void showGameEnd(User user){
-        showPoint(user);
+    public void showGameEnd(Player player){
+        showPoint(player);
         OutputView.showGameEnd();
     }
 
