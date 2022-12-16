@@ -84,7 +84,6 @@ public class DealerTest {
         //given
         Player player = new Player("KYH", 500);
         Dealer dealer = new Dealer();
-        Game game = new Game(player, dealer);
         //when
         dealer.dealingTwoCard(player);
         //then
@@ -98,5 +97,56 @@ public class DealerTest {
 
         assertThat(playerHands.size()).isEqualTo(2);
         assertThat(dealerHands.size()).isEqualTo(2);
+    }
+
+    @DisplayName("딜러가 히트를 하여 카드가 추가되는지 테스트")
+    @Test
+    public void testHit(){
+        //given
+        Dealer dealer = new Dealer();
+        //when
+        dealer.hit();
+        //then
+        assertThat(dealer.getHands().size()).isEqualTo(1);
+    }
+
+    @DisplayName("딜러가 히트가 필요한지 검사하는 테스트")
+    @Test
+    public void testIsNeedHit(){
+        //given
+        Dealer dealer = new Dealer();
+        dealer.addCard(new Card("A", Shape.CLOVER, 11));
+        //when
+        boolean actual = dealer.isNeedHit();
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("딜러가 딜링한 카드 2장이 첫번째는 오픈되어 있고 나머지는 덮혀있는지 테스트")
+    @Test
+    public void testCloseAllCardExceptOneCard(){
+        //given
+        Dealer dealer = new Dealer();
+        dealer.addCard(new Card("A", Shape.CLOVER, 11));
+        dealer.addCard(new Card("2", Shape.CLOVER, 2));
+        //when
+        dealer.closeAllCardExceptOneCard();
+        //then
+        assertThat(dealer.getHands().get(0).getStatus()).isEqualTo(CardStatus.OPEN);
+        assertThat(dealer.getHands().get(1).getStatus()).isEqualTo(CardStatus.CLOSE);
+    }
+
+    @DisplayName("딜러의 카드가 전부 오픈되어 있는지 확인하는 테스트")
+    @Test
+    public void testOpenAllCard(){
+        //given
+        Dealer dealer = new Dealer();
+        dealer.addCard(new Card("A", Shape.CLOVER, 11));
+        dealer.addCard(new Card("2", Shape.CLOVER, 2));
+        //when
+        dealer.openAllCard();
+        //then
+        assertThat(dealer.getHands().get(0).getStatus()).isEqualTo(CardStatus.OPEN);
+        assertThat(dealer.getHands().get(1).getStatus()).isEqualTo(CardStatus.OPEN);
     }
 }
