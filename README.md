@@ -141,11 +141,12 @@ KYH님 포인트를 얼마나 베팅하시겠습니까?
 2. 덱의 개수를 지정한 뒤 블랙잭 게임을 진행
 3. 스플릿과 같은 옵션을 추가한뒤 게임을 진행
 
-## 언어
+## 언어 및 라이브러리
 - Java 11
+- Junit5
+- 
 
-## 컴파일 및 실행
+## 빌드 및 실행
 ```shell
-~ $ javac -encoding utf-8 *.java
-~ $ java BlackJackApplication
+blackjack $ gradlew build && java -jar ./build/libs/blackjack-0.0.1-SNAPSHOT.jar
 ```
