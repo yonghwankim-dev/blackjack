@@ -1,6 +1,7 @@
 package com;
 
 public enum CardValue {
+    ACEONE("A", 1),
     ACE("A", 11),
     TWO("2", 2),
     THREE("3", 3),
@@ -15,8 +16,8 @@ public enum CardValue {
     QUEEN("Q", 10),
     KING("K", 10);
 
-    private String name;
-    private int value;
+    private final String name;
+    private final int value;
 
     CardValue(String name, int value) {
         this.name = name;
