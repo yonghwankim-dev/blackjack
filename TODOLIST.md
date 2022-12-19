@@ -34,3 +34,4 @@
 - [x] 딜러와 플레이어 모두 버스트인 경우 테스트
 - [x] 딜러와 플레이어 모두 블랙잭인 경우 테스트
 - [x] startDealerTurn, startPlayerTurn 메서드의 승패 판단 로직 개선
+- [ ] showHands 콘솔 출력 결과 문제 해결

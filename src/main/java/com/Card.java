@@ -60,7 +60,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return status == CLOSE ? String.format("%4s", "?") :
+        return status == CLOSE ? String.format("%5s", "?") :
                 String.format("%s%3d", shape.getValue(), value.getValue());
     }
 }

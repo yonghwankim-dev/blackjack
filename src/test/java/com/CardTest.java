@@ -32,7 +32,7 @@ public class CardTest {
         card1.toClose();
         String actual = card1.toString();
         //then
-        Assertions.assertThat(actual).isEqualTo("   ?");
+        Assertions.assertThat(actual).isEqualTo("    ?");
     }
 
 }
