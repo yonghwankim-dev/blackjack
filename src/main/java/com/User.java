@@ -46,4 +46,15 @@ public abstract class User implements Comparable<User> {
     public void resetHands(){
         hands.clear();
     }
+
+    public void replaceAceToAce(CardValue from, CardValue to){
+        for(int i = 0; i < getHands().size(); i++){
+            Card card = getHands().get(i);
+            if(card.getValue().equals(from)){
+                getHands().remove(card);
+                getHands().add(new Card(to, card.getShape(), card.getStatus()));
+                break;
+            }
+        }
+    }
 }
