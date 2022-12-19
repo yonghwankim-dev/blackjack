@@ -50,4 +50,8 @@ public class Player extends User{
     public String inputContinueGame(Dealer dealer) {
         return playerInput.inputContinueGame(dealer);
     }
+
+    public boolean hasPoint(){
+        return point > 0;
+    }
 }

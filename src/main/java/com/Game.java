@@ -50,7 +50,7 @@ public class Game {
             showCompareScoreResult(compareScoreResult);
             calculateCompareScoreResult(compareScoreResult, batting);
 
-            if(player.getPoint() <= 0){
+            if(!player.hasPoint()){
                 break;
             }
             yn = player.inputContinueGame(dealer);
