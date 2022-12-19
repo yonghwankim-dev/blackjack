@@ -62,9 +62,9 @@ KYH님 포인트를 얼마나 베팅하시겠습니까?
 >> 50
 
 딜러 : 패를 나누어줬습니다.
-|  NAME   | HANDS | SCORE  |
-|  DELEAR | ♡5    |  5     |
-|  KYH    | ♡7 ♧8 |  15    |
+|  NAME   | HANDS    | SCORE  |
+|  DELEAR | ♡5   ?  |  5     |
+|  KYH    | ♡7 ♧8  |  15    |
 
 딜러 : KYH님 선택해주십시오
 1. 히트(Hit)
@@ -72,9 +72,9 @@ KYH님 포인트를 얼마나 베팅하시겠습니까?
 >> 1
 
 딜러 : KYH님 히트를 선택하셨습니다.
-|  NAME   | HANDS    | SCORE  |
-|  DELEAR | ♡5       |  5     |
-|  KYH    | ♡7 ♧8 ♡2 |  17    |
+|  NAME   | HANDS        | SCORE  |
+|  DELEAR | ♡5   ?   ?  |  5     |
+|  KYH    | ♡7 ♧8 ♡2  |  17    |
 
 딜러 : KYH님 선택해주십시오
 1. 히트(Hit)
@@ -82,9 +82,9 @@ KYH님 포인트를 얼마나 베팅하시겠습니까?
 >> 2
 
 게임 결과
-|  NAME   | HANDS    | SCORE  |
-|  DELEAR | ♡5 ♤A ♤4 |  20    |
-|  KYH    | ♡7 ♧8 ♡2 |  17    |
+|  NAME   | HANDS        | SCORE  |
+|  DELEAR | ♡5 ♤A ♤4  |  20    |
+|  KYH    | ♡7 ♧8 ♡2  |  17    |
 딜러 승
 
 딜러 : 게임을 계속 진행하시겠습니까? (Y/N)
